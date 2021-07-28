@@ -1,0 +1,12 @@
+*{
+  padding: 0;
+  margin: 0;
+  text-decoration: none;
+  color: #333333;
+  font-family: font-regular,'Helvetica Neue',sans-serif;
+  -webkit-appearance: none;
+}
+body{
+  background-color: #ebebeb;
+}
+
