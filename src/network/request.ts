@@ -11,7 +11,7 @@ const BASEURL = "http://39.106.209.60:8080"
 //login请求
 //设置axios为form-data
 // axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-axios.defaults.headers.post['Content-Type'] = 'application/json ';
+axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 // axios.defaults.headers.get['Content-Type'] = 'application/json;charset=utf-8';
 // axios.defaults.headers.get['Content-Type'] = 'application/json;charset=utf-8';

@@ -188,7 +188,7 @@ input:focus::-webkit-input-placeholder {
   text-align: center;
 }
 .eye {
-  background-image: url("./src/assets/img/eyeclose.png");
+  background-image: url("/src/assets/img/eyeclose.png");
   background-size: contain;
   width: 20px;
   height: 20px;
@@ -197,20 +197,20 @@ input:focus::-webkit-input-placeholder {
   top: 90px;
 }
 .eyeopen {
-  background-image: url("./src/assets/img/eye.png");
+  background-image: url("/src/assets/img/eye.png");
 }
 .closeicon {
   position: absolute;
-  border-left: 2px solid rgb(255, 255, 255);
-  border-top: 2px solid rgb(255, 255, 255);
+  border-left: 3px solid rgb(255, 255, 255);
+  border-top: 3px solid rgb(255, 255, 255);
   width: 5px;
   height: 5px;
   transform: translateY(100%) rotateZ(45deg);
 }
 .closeicon1 {
   position: absolute;
-  border-left: 2px solid rgb(255, 255, 255);
-  border-top: 2px solid rgb(255, 255, 255);
+  border-left: 3px solid rgb(255, 255, 255);
+  border-top: 3px solid rgb(255, 255, 255);
   width: 5px;
   height: 5px;
   transform: rotateZ(-135deg);
@@ -225,7 +225,7 @@ input:focus::-webkit-input-placeholder {
 }
 .closeicons:hover {
   transform-origin: center center;
-  transform: rotateZ(60deg) scale(1.2);
-  transition: all 200ms;
+  transform: rotateZ(60deg) scale(1.5);
+  transition: all 500ms;
 }
 </style>
