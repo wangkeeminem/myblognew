@@ -53,11 +53,14 @@ export default defineComponent({
     const yourSpaceMode = ref(useRoute().path=='/yourspace')
     router.afterEach((to,from,failure)=>yourSpaceMode.value=to.path=='/yourspace')
     function tagclick(index:number){
-      if (yourSpaceMode) return {}
+      if (yourSpaceMode.value) 
+      {console.log(yourSpaceMode) 
+      return {}}
+      else{
        savechoice(index)
        store.commit('changeHeaderChoice',index)//同步至vuex
        store.commit('setArticleMode',false)//无论什么情况下，点击标签肯定都是回到summury模式
-       router.push(store.state.userRouter[index])
+       router.push(store.state.userRouter[index])}
     }
     const commentsClick = (payload:MouseEvent)=>{
       // console.log(payload);
