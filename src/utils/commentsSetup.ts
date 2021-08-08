@@ -26,8 +26,9 @@ export  function commentsSetup(Totalcomments:{result:comments[]},mode:string|num
     (SCROLL.scroll as BScroll).refresh()
    })//如果是留言模式 执行刷新动作  
 
-  const publishclick = (payload:number,event:Event)=>{
-    // console.log(mode,'这是mode');
+  const publishclick = (params:{payload:number,event:Event})=>{
+    const {payload,event} = params
+    console.log(mode,'这是mode');
     if(readUser()){
       publishVisible.value = !publishVisible.value//进入发布栏显示模式
       isReplyNo.value = payload//通过reply模式进入时，将reply转为true
@@ -63,12 +64,13 @@ export  function commentsSetup(Totalcomments:{result:comments[]},mode:string|num
     }
 
     sendComments(newcomments,mode)//最新的newcomments发送出去 前面的运算只是用于展示，实际在服务端在进行一次运算 进行跟帖的连接动作
-    
-    publishVisible.value =false//留言板不可见
-    inputContent.value = ''//清空留言板
+    publishVisible.value = false
   }
   const clickRefresh = ()=>{
     (SCROLL.scroll as BScroll).refresh()
+  }
+  const inputAction = (payload:string)=>{
+    inputContent.value = payload
   }
 //commentsList publishclick publishVisible inputContent launchClick commenentscount
   return {
@@ -79,6 +81,7 @@ export  function commentsSetup(Totalcomments:{result:comments[]},mode:string|num
     commentsList,
     inputContent,
     scroll,
-    clickRefresh
+    clickRefresh,
+    inputAction
   };
 }

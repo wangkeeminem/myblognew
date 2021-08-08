@@ -35,7 +35,7 @@ export default defineComponent({
   setup(props,context){
     const store = useStore()
     const scrollUp = inject('scrollUp',Function,true)//函数 用于判断显示 页面刷新还是回到顶部 该判断仅在浏览summury下有效
- const oldPosition = ref(0)
+    const oldPosition = ref(0)
     onMounted(()=>{
     
     //初始化bs
@@ -108,7 +108,7 @@ export default defineComponent({
          }
     })
 
-    return{    
+    return{  
     }
   }
 })

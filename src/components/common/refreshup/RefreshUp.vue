@@ -37,7 +37,7 @@ export default defineComponent({
     float:left;
     height: 2vw;
     width: 2vw;
-    margin-left: 70vw;
+    margin-left: 67vw;
     top: 85%;
     z-index: 100;
     -webkit-user-select:none;

@@ -13,11 +13,14 @@
   <CommentsContent :commentsList="commentsList" :publishclick="publishclick" ref="reftest"/>
   </div>
    </Scroll>
-  <img class="userpublish" src="/src/assets/img/userpublish.svg" alt="" @click="publishclick(0,$event)">
-  <img class="userpublish userlaunch"  v-if="publishVisible" src="/src/assets/img/userlaunch.svg" alt="" @click="launchClick">
-  <textarea v-if="publishVisible" class="publishBar" v-model="inputContent" focus></textarea>
+
+   <Commentbar @publishclick="publishclick" @launchClick="launchClick" @inputAction="inputAction"  :publishVisible="publishVisible" :inputContent="inputContent"/>
+
    <RefreshUp class="refreshUp" v-if="deviceMode=='mobile'" @click="clickRefresh"/>
 </template>
+
+
+
 
 <script lang='ts'>
 import {  computed, defineAsyncComponent, defineComponent, onMounted, ref, } from "vue";
@@ -25,16 +28,17 @@ import {  computed, defineAsyncComponent, defineComponent, onMounted, ref, } fro
 const CommentsContent=defineAsyncComponent(()=>import('./CommentsContent.vue'))
 import Scroll from '../../../components/common/sroll/Scroll.vue'
 import RefreshUp from '../../../components/common/refreshup/RefreshUp.vue'
+import Commentbar from 'components/common/commentbar/Commentbar.vue'
 
 import {commentsSetup} from '../../../utils/commentsSetup'
 import comments from "../../../types/commentslist";
-import store from "../../../store";
+
 import { useStore } from "vuex";
 
 
 export default defineComponent({
   name: "CommentsHeader",
-  components:{CommentsContent,Scroll,RefreshUp},
+  components:{CommentsContent,Scroll,RefreshUp,Commentbar},
   props:{
      Totalcomments:{
       type:Object,
@@ -75,7 +79,7 @@ export default defineComponent({
   font-size: 1.8vw;
   line-height: 1.8vw;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-  font-weight: 200;
+  font-weight: 400;
 }
 .content {
   position: static;
@@ -102,38 +106,8 @@ export default defineComponent({
     user-select:none;
 }
 
-.userpublish{
-  width: 3vw;
-  position:fixed;
-  left: 67vw;
-  top:82vh;
-}
-.userlaunch{
-  transform: translateY(-100%);
-}
 
 
-.publishBar{
-  width: 55vw;
-  height: 200px;
-  position: fixed;
-  top: calc(82% + 3vw);
-  transform: translateY(-100%);
-  left: 5vw;
-  padding: 35px 3vw;
-  border: rgba(253, 253, 253, 0.2) 2px solid;
-  background-color:rgba(100, 100, 100, 0.4);
-  color:rgb(223, 223, 223);
-  font-size: 2.5vw;
-  line-height: 2;
-  white-space: pre-wrap;
-  resize: none;
-  outline:none;
-  border-radius:4px ;
-}
-.userpublish:hover{
-  opacity: 0.5;
-}
   ::-webkit-scrollbar-button{
     display: none;
     border-radius: 4px 4px;
@@ -172,20 +146,7 @@ export default defineComponent({
       height: auto;
     
     }
-    .userpublish{
-      width: 6vw;
-      position:fixed;
-      left:94vw;
-      top:78vh;
-   }
-   .publishBar{
-     width: 82vw;
-     height: 250px;
-     position: fixed;
-     font-size: 4vw;
-     top: calc(78% + 6vw);
-     transform: translateY(-100%);
-   }
+
    .content{
      font-size: 3vw;
    }

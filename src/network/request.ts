@@ -5,8 +5,8 @@ import publishconfig from '../types/publishconfig';
 
 import registerconfig from '../types/registerconfig'
 
-// const BASEURL = "http://192.168.2.105:8080"
-const BASEURL = "http://39.106.209.60:8080"
+const BASEURL = "http://192.168.2.105:8080"
+// const BASEURL = "http://39.106.209.60:8080"
 //"http://127.0.0.1:8081",
 //login请求
 //设置axios为form-data
@@ -230,6 +230,29 @@ export const searchResultGet = (config:{url:string,data:{content:string,page:num
   const instance1=axios.create({
     baseURL:BASEURL,
     method:'post',
+    timeout:10000
+  })
+  // 请求拦截
+  instance1.interceptors.request.use(config=>{
+    return config
+  },err=>{
+    console.log(err+'request2请求出错了,请检查您的互联网连接');
+  })
+  // 响应拦截、转化请求返回数据
+  instance1.interceptors.response.use(result=>{
+    // console.log('hahahah');
+    return result
+  },err=>{
+    console.log(err+'request2响应出错了,请检查您的互联网连接');
+  })
+  return instance1(config)  
+}
+
+//视频video请求
+export const getVideos = (config:{url:string}) => {
+  const instance1=axios.create({
+    baseURL:BASEURL,
+    method:'get',
     timeout:10000
   })
   // 请求拦截

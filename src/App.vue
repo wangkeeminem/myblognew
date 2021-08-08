@@ -1,6 +1,6 @@
 <template>  
-<div class="view-content" :class="deviceMode"> 
-  <div class="device-mode" :class="deviceMode" @click="changeMode"  :title="'点我切换为'+(deviceMode=='computer'?'手机':'电脑')+'模式'">
+<div class="view-content" :class="deviceMode" :id="videoMode?'videoMode':''"> 
+  <div class="device-mode" :class="deviceMode"  @click="changeMode"  :title="'点我切换为'+(deviceMode=='computer'?'手机':'电脑')+'模式'">
   <img src="/src/assets/img/phone.svg" class="mobile-mode " :style="{right:isLogout?'100px':''}" :class="deviceMode=='mobile'?'isshow':'ishidden'" alt="device-mode">
   <img src="/src/assets/img/computer.svg" class="computer-mode"  :style="{right:isLogout?'100px':''}"  :class="deviceMode=='computer'?'isshow':'ishidden'"  alt="device-mode"></div>
   <Header />
@@ -19,6 +19,7 @@ import Header from './components/content/header/Header.vue'
 import Aside from './components/content/aside/Aside.vue'
 import { useStore } from 'vuex'
 import { readUser } from './utils/localStorageUtils'
+import { useRouter } from 'vue-router'
 
 export default defineComponent({
   name: 'App',
@@ -27,16 +28,20 @@ export default defineComponent({
   }, 
   setup(){
     const store=useStore()
+    const videoMode = ref(false)
     store.commit('setDeviceMode',innerWidth>690?'computer':'mobile')
     const deviceMode = computed(()=>store.state.deviceMode)
     const changeMode = ()=>{
       store.commit('setDeviceMode',deviceMode.value=='computer'?'mobile':'computer')
-       console.log(deviceMode);
-       
+       console.log(deviceMode);      
     }
+    useRouter().afterEach((to,from,failure)=>{
+      videoMode.value=(to.path.includes('video'))
+      console.log('这是videoMode',videoMode.value)
+    })
     const isLogout = ref(!readUser())//是否已登录
     console.log(isLogout)
-    return {changeMode,deviceMode,isLogout}
+    return {changeMode,deviceMode,isLogout,videoMode}
   }
 })
 </script>
@@ -51,6 +56,10 @@ export default defineComponent({
   }
   .view-content.computer{
    position: absolute;
+    height: 100vh;
+  }
+  .view-content#videoMode{
+    position: absolute;
     height: 100vh;
   }
   .mobile-mode{

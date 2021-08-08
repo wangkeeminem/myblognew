@@ -13,6 +13,7 @@ const YourEditSpace = () => import('../views/yourEditSpace/YourEditSpace.vue')
 
 const Myspace = () => import('../views/myspace/Myspace.vue')
 const Search = () =>import ('../views/search/Search.vue')
+const VideoView = ()=>import('../views/video/VideoView.vue')
 
 const routes = [  
   {path:'/',redirect:'/home'},
@@ -28,6 +29,7 @@ const routes = [
   {path:'/YourEditSpace',component:YourEditSpace},
   {path:'/Myspace',component:Myspace},
   {path:'/search',component:Search},
+  {path:'/video',component:VideoView,name:'video'},
 
 ] 
 

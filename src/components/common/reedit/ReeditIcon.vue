@@ -24,8 +24,8 @@ export default defineComponent({
   .deleteicon{
     position: absolute;
     right:2vw;
-    font-size: 1.5vw;
-    bottom:25px; 
+    font-size: 1.2vw;
+    bottom:22px; 
   }
   .deleteicon:hover{
     font-weight: 900;

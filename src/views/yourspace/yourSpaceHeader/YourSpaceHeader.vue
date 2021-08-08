@@ -110,6 +110,7 @@ export default defineComponent({
   top: -70px;
   padding: 30px 3vw;
   /* height: 100px; */
+  
   background-color: white;
   border: rgba(100, 100, 100, 0.2) 2px solid;
   -webkit-user-select: none;
@@ -121,7 +122,7 @@ export default defineComponent({
   font-size: 1.8vw;
   line-height: 1.8vw;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
-  font-weight: 200;
+  font-weight: 400;
 }
 .content {
   position: static;

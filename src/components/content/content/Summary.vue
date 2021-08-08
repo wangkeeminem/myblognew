@@ -1,26 +1,5 @@
 <template>
-        <img
-          class="userpublish"
-          src="/src/assets/img/userpublish.svg"
-          alt=""
-          @click="setupComment.publishclick(0, $event)"
-           v-show="readArticle"
-           v-if="!yourSpaceMode"
-        />
-        <img
-          class="userpublish userlaunch"
-          v-if="setupComment.publishVisible"
-          src="/src/assets/img/userlaunch.svg"
-          alt=""
-          @click="setupComment.launchClick"
-           v-show="readArticle"
-        />
-        <textarea
-          v-if="readArticle&&setupComment.publishVisible"
-          class="publishBar"
-          v-model="setupComment.inputContent"
-           
-        ></textarea>
+  <CommentBar  @publishclick="setupComment.publishclick" @launchClick="setupComment.launchClick" @inputAction="setupComment.inputAction" v-if="!yourSpaceMode&&readArticle" :publishVisible="setupComment.publishVisible"/>
   <RefreshUp :backToTop="backToTop" @uprefreshClick="uprefreshClick" v-if="deviceMode=='mobile'"/>
   <Scroll @scroll="scroll" :commentElement="commentElement" :commentsInto="commentsInto">
     <div>
@@ -100,6 +79,7 @@ import DeleteIcon from 'components/common/delete/DeleteIcon.vue'
 import ReeditIcon from 'components/common/reedit/ReeditIcon.vue'
 import Scroll from '../../common/sroll/Scroll.vue'
 import RefreshUp from "./../../common/refreshup/RefreshUp.vue"
+import CommentBar from "components/common/commentbar/Commentbar.vue"
 
 import BScroll from "@better-scroll/core";
 import { useRoute, useRouter } from "vue-router";
@@ -121,7 +101,8 @@ export default defineComponent({
     RefreshUp,
     CommentsContent,
     DeleteIcon,
-    ReeditIcon
+    ReeditIcon,
+    CommentBar
   },
   props: {
     articles: {
@@ -406,61 +387,12 @@ export default defineComponent({
   position: relative;
   top: -40px;
 }
-.userpublish {
-  width: 3vw;
-  position: fixed;
-  left: 70vw;
-  top: 76vh;
-  z-index: 100;
-}
-.userlaunch {
-  transform: translateY(-100%);
-}
 
-.publishBar {
-  width: 55vw;
-  height: 200px;
-  position: fixed;
-  top: calc(76% + 3vw);
-  transform: translateY(-100%);
-  left: 5vw;
-  padding: 35px 3vw;
-  border: rgba(143, 106, 106, 0.2) 2px solid;
-  background-color: rgba(100, 100, 100, 0.4);
-  color: rgb(223, 223, 223);
-  font-size: 2.5vw;
-  line-height: 2;
-  white-space: pre-wrap;
-  resize: none;
-  outline: none;
-  border-radius: 4px;
-  z-index: 100;
-}
-.userpublish:hover {
-  opacity: 0.5;
-}
 @media screen {
   @media (max-width: 1000px) {
     .totalComments {
       width: 84vw;
     }
-    .userpublish {
-      width: 6vw;
-      position: fixed;
-      left: 94vw;
-      top: 80vh;
-      z-index: 100;
-    }
-    .publishBar {
-      width: 84vw;
-      height: 250px;
-      position: fixed;
-      font-size: 4vw;
-      top: calc(80% + 6vw);
-      transform: translateY(-100%);
-      z-index: 100;
-    }
-    
   }
 }
 </style>

@@ -65,7 +65,7 @@ export default defineComponent({
     const replyClick = (payload: number, event: Event) => {
       //把代表帖子id的publishtime传给发布函数
       
-      ;(props.publishclick as Function)(payload);
+      ;(props.publishclick as Function)({payload,event});//comment公用重构时参数结构变化了
     };
     const deleteClick = (id:number,articleId:string, event: Event)=>{
       console.log(id,'主留言被点了');

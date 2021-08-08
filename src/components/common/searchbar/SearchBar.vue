@@ -91,7 +91,7 @@ export default defineComponent({
 
 <style scoped>
 .searchInput {
-  width: 21vw;
+  width: 18vw;
   height: 50px;
   /* position: absolute; */
   outline-color: rgb(143, 142, 139);
@@ -103,7 +103,7 @@ export default defineComponent({
   display: flex;
   position: absolute;
   justify-content: space-around;
-  width: 25vw;
+  width: 22vw;
   height: 50px;
   right: 5vw;
   top: 200px;
@@ -136,8 +136,8 @@ export default defineComponent({
   font-size: 1.2vw;
   line-height: 1.2vw;
 }
-@media screen {
-  @media (max-width: 1350px) {
+ @media screen {
+  @media (max-width: 1000px) {
     .totalSearch {
       top: 85px;
       right: 9vw;
@@ -148,7 +148,7 @@ export default defineComponent({
   }
     
   }
-}
+} 
 @media screen {
   @media (max-width: 950px) {
     .searchIcon {
@@ -164,7 +164,8 @@ export default defineComponent({
       transform: translateX(-50%);
       background-color: transparent;
       border: 3px solid rgba(100, 100, 100, 0.2);
-      box-shadow: rgba(100, 100, 100, 0.2) 2px 2px;
+      box-shadow: rgba(241, 241, 241, 0.2) 1px 1px;
+      border-radius: 10px;
     }
     .searchInput.visible {
       width: 65vw;
@@ -186,7 +187,7 @@ export default defineComponent({
       background-color: transparent;
       border: none;
       display: hidden;
-      background-color: white;
+      /* background-color: white; */
       background-color: transparent;
     }
     .resultCount{
