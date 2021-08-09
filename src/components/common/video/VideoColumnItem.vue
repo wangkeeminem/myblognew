@@ -43,6 +43,9 @@ export default defineComponent({
   z-index: 101;
   background-size:cover;
 }
+.videoItem:hover{
+  filter: brightness(1.3);
+}
 .videoTitle{
   font-size: 22px;
   /* width:24vw; */

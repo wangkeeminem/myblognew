@@ -3,7 +3,7 @@
     <div class="title">学习视频</div>
     <div class="content"><strong>{{currentVideo?.videoTitle}}</strong></div>
   </div>
-  <div class="player" :class="VideoColumnVisible ? '' : 'movieModePlayer'">
+  <div class="player" :class="VideoColumnVisible ? '' : 'movieModePlayer'" ref="player">
     <VideoColumn class="videoColoum" v-if="VideoColumnVisible||(!videoMode&&!videoToEnd)" />
     <VideoCanvas
       :class="VideoColumnVisible ? 'VideoColumnVisible' : ''"
@@ -12,16 +12,16 @@
       :videoPath="videoPath"
       :currentIndex="currentIndex"
       :poster="currentVideo?.titleImagePath"
+      :switchScreen="switchScreen"
     />
     <img src="/src/assets/img/start.jpg"  class="startPlayImg" alt="startPlay" v-if="!videoMode&&!videoToEnd">
-    <img src="/src/assets/img/end.jpg"  class="endPlayImg" alt="endPlay"  v-if="(!VideoColumnVisible)&&videoToEnd" @click="endClick">
-    
+    <img src="/src/assets/img/end.jpg"  class="endPlayImg" alt="endPlay"  v-if="(!VideoColumnVisible)&&videoToEnd" @click="endClick">   
   </div>
   
 </template>
 
 <script lang='ts'>
-import { computed, defineComponent, reactive, ref } from "vue";
+import { computed, defineComponent, onMounted, reactive, ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import VideoColumn from "./VideoColumn.vue";
@@ -37,6 +37,8 @@ export default defineComponent({
     const VideoColumnVisible = ref(true);//视频栏目可见
     const videoMode = ref(false);//视频模式关闭
     const videoToEnd = ref(false)
+    const player = ref<HTMLElement|null>(null)//整个播放器元素，用来获取进行全屏
+    const isFullScreen = ref(false)//全屏默认false
 
     const videoPath = ref(useRoute().params?.videoPath);//视频路径获取
     const currentIndex = ref(useRoute().params?.index);//当前视频的序号
@@ -55,7 +57,8 @@ export default defineComponent({
       
     })
     
-    router.afterEach((to, from, falure) => {
+    router.afterEach((to, from, falure) => {//监听通过视频栏目跳转的事件
+      isFullScreen.value= false
       if (to.params.videoPath) {       
         VideoColumnVisible.value = false; //如果带参数videoPath进来的，将画布中的视频菜单隐藏
         videoPath.value = to.params.videoPath;
@@ -71,7 +74,7 @@ export default defineComponent({
       }
     });
 
-    const playNextVideo = () => {
+    const playNextVideo = () => {//监听通过视频下一个控件跳转的事件
       videoMode.value = false    
        const index = Number(currentIndex.value) + 1;
        const videoPath = videoList.value[index]?.videoPath;
@@ -82,8 +85,7 @@ export default defineComponent({
           params: { index, videoPath, videoInfoListCurrent },
           name: "video",
         })
-        .then(() => {
-          
+        .then(() => {         
           videoMode.value = true          
         });
          //跳转到下一个视频
@@ -95,9 +97,17 @@ export default defineComponent({
         
     };
     const endClick = ()=>{
-      videoToEnd.value = false
-      
+      videoToEnd.value = false     
       }
+    const switchScreen=()=>{//通过按钮触发
+       isFullScreen.value= !isFullScreen.value //反转全屏模式
+       if(isFullScreen.value)
+       (player.value as HTMLElement).requestFullscreen()
+       else 
+       document.exitFullscreen().catch(()=>switchScreen()) //退出全屏或者失败情况下（解决非按钮触发退出的异常）再次进入全屏
+     }
+     
+       
     return {
       VideoColumnVisible,
       playNextVideo,
@@ -106,7 +116,9 @@ export default defineComponent({
       currentIndex,
       videoToEnd,
       endClick,
-      currentVideo
+      currentVideo,
+      switchScreen,
+      player
     };
   },
 });
@@ -148,13 +160,14 @@ export default defineComponent({
   left: 5vw;
   top: -50px;
   padding: 30px 3vw;
-  height: 55vh;
+  height: 50vh;
   background-color: white;
   border: rgba(100, 100, 100, 0.2) 2px solid;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+ 
 }
 .videoColoum {
   display: none;
@@ -177,10 +190,12 @@ export default defineComponent({
 }
 .endPlayImg{
     position: absolute;
-    left: 0;
+    /* left: 0; */
     width: 100%;
+    height: 80%;
+    left: 50%;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
 }
 
 @media screen {

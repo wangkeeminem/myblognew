@@ -1,6 +1,6 @@
 <template>
-<div class="videoColumn" >
-  <div v-for="(item,index) in videoInfoList" @click="getIntoVideo(index,item.videoPath,$event)" :key="item">
+<div class="videoColumn" ref="videoColumn">
+  <div v-for="(item,index) in videoInfoList" :ref="currentIndex==index?'videoColumnItem':''" :class="currentIndex==index?'isSelected':''" @click="getIntoVideo(index,item.videoPath,$event)" :key="item">
 <VideoColumnItem :videoItem="item"/>
 </div>
 </div>
@@ -18,9 +18,11 @@ export default defineComponent({
   
   setup(){
     const router = useRouter()
-   
-    
-    const getIntoVideo =(index:number,videoPath:string,event:MouseEvent)=>{     
+    const currentIndex = ref()
+    const videoColumn = ref<HTMLElement|null>(null)
+    const videoColumnItem = ref<HTMLElement|null>(null)
+    const getIntoVideo =(index:number,videoPath:string,event:MouseEvent)=>{  
+      currentIndex.value = index   //将当前所选为true
       // router.push('/video?videoId=')//点击跳转进具体video路由
       const videoInfoListCurrent = JSON.stringify(videoInfoList.value)
       // console.log(videoPath)
@@ -28,11 +30,20 @@ export default defineComponent({
       
     }
     const videoInfoList = ref<videoInfo[]>()
-    getVideoInfo().then((res)=>{ videoInfoList.value=res.data.videos}) 
-
-    
+    getVideoInfo().then((res)=>{ videoInfoList.value=res.data.videos})
+ 
+    router.afterEach((to,from,failure)=>{     
+      currentIndex.value = to.params.index
+      if(videoColumn.value&&videoColumnItem.value){
+      (videoColumn.value as HTMLElement).style.overflow = 'auto'
+       const isSelectHeight=(videoColumnItem.value as HTMLElement).scrollHeight
+       ;(videoColumn.value as HTMLElement).scrollTo({top:currentIndex.value*isSelectHeight})      
+      }
+     }     
+    )
+     
     return{
-      getIntoVideo,videoInfoList
+      getIntoVideo,videoInfoList,currentIndex,videoColumn,videoColumnItem
     }
   }
 })
@@ -48,7 +59,10 @@ export default defineComponent({
    overflow:hidden;
    display: flex;
    flex-direction: column;
-  
+    direction: rtl; 
+}
+.isSelected{
+  filter: brightness(0.5);
 }
 .videoColumn:hover{
   overflow:auto;
