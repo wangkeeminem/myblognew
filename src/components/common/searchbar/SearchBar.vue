@@ -8,11 +8,11 @@
       type="text"
       class="searchInput"
       :class="visible ? 'visible' : 'unseen'"
-      :disabled=!visible
       v-model="searchInput"
       ref="INPUT"
       @keyup.enter="searchEnter"
       placeholder="请输入关键词"
+
     />
     <div>
       <p class="resultCount"  :style="{color:countHidden?'transparent':''}">{{searchCount}}</p>
@@ -86,15 +86,11 @@ export default defineComponent({
     watch(visible,(newVal,oldVal)=>{
        if(newVal) 
        {
-         ;(INPUT.value as HTMLElement).autofocus=true
+         ;(INPUT.value as HTMLElement).focus()
        } 
-       else console.log('当前的input',INPUT.value)
+       else (INPUT.value as HTMLElement).blur()
     })
-    watch(INPUT,(newVal,oldVal)=>{
-      console.log('input变了')
-
-      console.log(newVal,oldVal)
-    })
+    
     const searchCount = computed(()=>store.state.searchCount)
     return { searchIconClick, visible ,searchInput ,INPUT,searchEnter,searchCount,countHidden};
   },
@@ -195,7 +191,8 @@ export default defineComponent({
       border:none;
     }
     .searchInput.unseen {
-      width: 0vw;
+      width: 0;
+      height: 0;
       background-color: transparent;
       border: none;
       display: hidden;
