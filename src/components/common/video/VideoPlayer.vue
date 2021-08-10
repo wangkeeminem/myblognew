@@ -1,4 +1,5 @@
 <template>
+ <div class="videoView">
   <div class="VideoHeader" :class="VideoColumnVisible ? '' : 'movieModeHeader'">
     <div class="title">学习视频</div>
     <div class="content"><strong>{{currentVideo?.videoTitle}}</strong></div>
@@ -13,11 +14,12 @@
       :currentIndex="currentIndex"
       :poster="currentVideo?.titleImagePath"
       :switchScreen="switchScreen"
+      :closeVideo = "closeVideo"
     />
     <img src="/src/assets/img/start.jpg"  class="startPlayImg" alt="startPlay" v-if="!videoMode&&!videoToEnd">
     <img src="/src/assets/img/end.jpg"  class="endPlayImg" alt="endPlay"  v-if="(!VideoColumnVisible)&&videoToEnd" @click="endClick">   
   </div>
-  
+  </div>
 </template>
 
 <script lang='ts'>
@@ -53,8 +55,7 @@ export default defineComponent({
     if (videoPath.value) VideoColumnVisible.value = false; //如果本身带参数videoPath，将画布中的视频菜单隐藏 （针对第一次进入）
     router.beforeEach(()=>{
       videoToEnd.value = false
-      videoMode.value = false;
-      
+      videoMode.value = false;     
     })
     
     router.afterEach((to, from, falure) => {//监听通过视频栏目跳转的事件
@@ -107,7 +108,9 @@ export default defineComponent({
        document.exitFullscreen().catch(()=>switchScreen()) //退出全屏或者失败情况下（解决非按钮触发退出的异常）再次进入全屏
      }
      
-       
+     const closeVideo = ()=>{
+      videoMode.value = false//定义关闭视频的函数，用于画布的关闭
+     }  
     return {
       VideoColumnVisible,
       playNextVideo,
@@ -118,7 +121,8 @@ export default defineComponent({
       endClick,
       currentVideo,
       switchScreen,
-      player
+      player,
+      closeVideo
     };
   },
 });
@@ -138,36 +142,38 @@ export default defineComponent({
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  
 }
 .title {
-  font-size: 1.8vw;
-  line-height: 1.8vw;
+  font-size: 16px;
+  line-height: 16px;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   font-weight: 400;
 }
 .content {
   position: static;
   white-space: pre-wrap;
-  height: 60px;
+  height: 3vh;
   font-size: 1.2vw;
   line-height: 1.5;
   font-weight: 100;
-  margin-top: 25px;
+  margin-top: 20px;
 }
 .player {
   position: relative;
   width: 55vw;
   left: 5vw;
   top: -50px;
-  padding: 30px 3vw;
-  height: 50vh;
+  padding: 15px 3vw;
+  height: 45vh;
+  /* height: 300px; */
   background-color: white;
   border: rgba(100, 100, 100, 0.2) 2px solid;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
- 
+
 }
 .videoColoum {
   display: none;

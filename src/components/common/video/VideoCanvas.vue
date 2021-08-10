@@ -45,8 +45,9 @@
         alt="volumeIcon"
       />
       </div>
-    <img class="fullScreenIcon" src="/src/assets/img/fullscreen.svg" alt="maxSize"  @click="switchScreen">  
+    <img class="fullScreenIcon" src="/src/assets/img/fullscreen.svg" alt="maxSize"  @click="switchScreen()">  
     </div>
+    <img class="closeIcon" alt="closeIcon" src="/src/assets/img/close.svg" @click="closeClick"/>
     <div class="speedItem" v-show="bottomVisible">
     <span class="speed">{{ currentSpeed.toFixed(1)}}</span
     ><progress
@@ -91,6 +92,10 @@ export default defineComponent({
       type:Function,
       required:true
     },
+    closeVideo:{
+      type:Function,
+      required:true
+    }
   },
   setup(props) {
     const controllerVisible = ref(false);
@@ -191,6 +196,15 @@ export default defineComponent({
         if(event.offsetY<(event.target as HTMLElement).clientHeight)//如果鼠标进入了幕布
         bottomVisible.value=false//让控件显示出来
     }
+    const closeClick = ()=>{
+      clearTimeout(timerForDisp.value)//将原本延时器清除
+      video.pause();
+      // console.log(document.getElementsByTagName('video'))
+      if (document.getElementById(props.currentIndex))
+        (document.getElementById(props.currentIndex) as HTMLElement).remove(); //删除当前的video元素
+      props.closeVideo()//跳至选择界面      
+      ;(timerForDisp.value as any)=setTimeout(()=>{ bottomVisible.value = false},3000)//新延时器      
+    }
     return {
       doubleClick,
       playClick,
@@ -208,7 +222,8 @@ export default defineComponent({
       speedBackToOne,
       canvasLeave,
       bottomVisible,
-      canvasEnter
+      canvasEnter,
+      closeClick
     };
   },
 });
@@ -220,7 +235,6 @@ export default defineComponent({
   background-color: brown;
   left: 0;
   width: 100%;
-  height: 80%;
   top: 50%;
   transform: translateY(-50%);
   background-size: cover;
@@ -322,6 +336,7 @@ export default defineComponent({
   @media (max-width: 1000px) {
     .controller {
       height: 30px;
+      margin: 10px;
     }
     .controller:hover {
       opacity: 1;
@@ -345,6 +360,12 @@ export default defineComponent({
       height: 20px;
       bottom: 5%;
       transform: translateY(0%);
+    }
+    .closeIcon{
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 15px;
     }
   }
 }

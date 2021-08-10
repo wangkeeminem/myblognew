@@ -8,6 +8,7 @@
       type="text"
       class="searchInput"
       :class="visible ? 'visible' : 'unseen'"
+      :disabled=!visible
       v-model="searchInput"
       ref="INPUT"
       @keyup.enter="searchEnter"
@@ -25,7 +26,7 @@
 </template>
 
 <script lang='ts'>
-import { computed, defineComponent, ref } from "vue";
+import { computed, defineComponent, ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
 import {  saveSearchContent } from "../../../utils/sessionStorageUtils";
@@ -39,14 +40,15 @@ export default defineComponent({
     const INPUT = ref<HTMLElement|null>(null)
     const searchInput = ref('')
     const countHidden = ref(true)
-    const searchIconClick = () => {    
+    const searchIconClick = (event:MouseEvent) => {   
+      console.log('点击了') ;
       visible.value = !visible.value;
-      if(!searchInput.value){
-        INPUT.value?.focus()
+      if(!searchInput.value){//如果搜索输入不为0
+      console.log('点击了1',INPUT.value)
         countHidden.value = true
         return null}
-      if (!visible.value){
-        console.log('搜索')
+      else if (!visible.value){//如果是隐藏状态的点击进入
+        console.log('搜索');
         searchInput.value = searchInput.value.trim()
         if(searchInput.value.length<2)
         {
@@ -57,13 +59,11 @@ export default defineComponent({
         store.commit('setSearchContent',searchInput.value)
         store.commit('setArticleMode',false)
         saveSearchContent(searchInput.value)
-        // searchforArticle(searchInput.value)//在search页提交服务器搜索
-        
+        // searchforArticle(searchInput.value)//在search页提交服务器搜索       
         searchInput.value = ''
       }
       else{
         console.log('进入搜索')
-        INPUT.value?.focus()
         countHidden.value = false
         //check article请求 先不写
         }
@@ -83,6 +83,18 @@ export default defineComponent({
         visible.value = false
         return false
     }
+    watch(visible,(newVal,oldVal)=>{
+       if(newVal) 
+       {
+         ;(INPUT.value as HTMLElement).autofocus=true
+       } 
+       else console.log('当前的input',INPUT.value)
+    })
+    watch(INPUT,(newVal,oldVal)=>{
+      console.log('input变了')
+
+      console.log(newVal,oldVal)
+    })
     const searchCount = computed(()=>store.state.searchCount)
     return { searchIconClick, visible ,searchInput ,INPUT,searchEnter,searchCount,countHidden};
   },
@@ -95,7 +107,7 @@ export default defineComponent({
   height: 50px;
   /* position: absolute; */
   outline-color: rgb(143, 142, 139);
-  border: rgb(196, 196, 196) 1px solid;
+  border: rgb(221, 221, 221) 1px solid;
   border-radius: 4px;
   font-size: 20px;
 }
@@ -163,7 +175,7 @@ export default defineComponent({
       left: 50%;
       transform: translateX(-50%);
       background-color: transparent;
-      border: 3px solid rgba(100, 100, 100, 0.2);
+      border: 1px solid rgba(100, 100, 100, 0.1);
       box-shadow: rgba(241, 241, 241, 0.2) 1px 1px;
       border-radius: 10px;
     }
