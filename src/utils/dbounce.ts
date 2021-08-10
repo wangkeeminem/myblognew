@@ -1,13 +1,17 @@
+let timer:any = null
+let funReturn:any=null
 export default function dbounce(fun:Function,delay:number=300){
-  let timer:any=null
-   return function(...args:any[]){
-  console.log('执行了1');
-  if (timer) clearTimeout(timer)
-  timer = setTimeout(() => {
-    // fun.apply(this:any, args)
-    dbounce(fun,delay)
+  if (timer) {
+    clearTimeout(timer)
+    console.log('取消定时器')
+  }
+  else
+  console.log('生成定时器')
+  timer= setTimeout(() => {
+    // dbounce(fun,delay)
+    funReturn=fun
   }, delay)
- }
+  return funReturn
 }
 
 

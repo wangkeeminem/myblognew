@@ -5,8 +5,8 @@ import publishconfig from '../types/publishconfig';
 
 import registerconfig from '../types/registerconfig'
 
-const BASEURL = "http://192.168.2.105:8080"
-// const BASEURL = "http://39.106.209.60:8080"
+// const BASEURL = "http://192.168.2.105:8080"
+const BASEURL = "http://39.106.209.60:8080"
 //"http://127.0.0.1:8081",
 //login请求
 //设置axios为form-data

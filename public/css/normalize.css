@@ -5,8 +5,12 @@
   color: #333333;
   font-family: font-regular,'Helvetica Neue',sans-serif;
   -webkit-appearance: none;
+  
 }
 body{
   background-color: #ebebeb;
+  overflow-x: hidden;
 }
-
+html{
+  overflow-x: hidden;
+}

@@ -8,7 +8,7 @@
   > 
   
     <div class="commentsList" :id="item.userid=='wangke'?'VIP':''">
-      <DeleteIcon  @click="deleteClick(item._id?item._id:item.publishtime,articleId,item,$event)"/>
+      <DeleteIcon  @click="deleteClick(item._id?item._id:item.publishtime,articleId,$event)"/>
       <span class="userInfo"
         ><a href="javascript:;" title="userinfo"
           >{{ item.userid + "  " }}
@@ -43,13 +43,15 @@ import OneCommentsContent from './OneCommentsContent.vue'
 // const DeleteIcon = defineAsyncComponent(()=>import('../../../components/common/delete/DeleteIcon.vue'))
 import DeleteIcon from '../../../components/common/delete/DeleteIcon.vue'
 import {deleteComment} from '../../../network/deleteComment'
+
+
 export default defineComponent({
   name: "CommentsContent",
   components:{OneCommentsContent,DeleteIcon},
   props: {
-    commentsList: {
-      type: Array,
-      required:false,
+    commentsList:{
+      type:Object,
+      required:true,
     },
     publishclick: {
       type: Function,

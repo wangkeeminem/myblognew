@@ -87,17 +87,17 @@ export default defineComponent({
 @media screen {
   @media(max-width:1000px){
     .userpublish{
-      width: 6vw;
       position:fixed;
-      left:94vw;
-      top:78vh;
+      width: 25px;
+      left:calc(100% - 25px);
+      top:calc(100vh - 150px);
    }
    .publishBar{
      width: 82vw;
      height: 250px;
      position: fixed;
      font-size: 4vw;
-     top: calc(78% + 6vw);
+     top: calc(100vh - 150px + 6vw);
      transform: translateY(-100%);
    }
 

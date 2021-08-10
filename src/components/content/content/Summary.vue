@@ -137,19 +137,19 @@ export default defineComponent({
     const router = useRouter();
     const readArticle = computed(() => store.state.articleMode); //是否为文章阅读mode
     const articleChoice = reactive({
-      result: { title: "", details: {}, content: "", tagChoice: [],publishTime:0,comments:[] },
+      result: { title: "", details: {}, content: "", tagChoice: [],publishTime:0,comments:[],_id:''},
     });
 
     const backToTop = ref(false);
     const SCROLL = reactive({ scroll: {} });
-    const setupComment = reactive({setupComment:{}})
+    const setupComment = reactive({setupComment:{} as any})
 
     const yourSpaceMode = ref(useRoute().path=='/yourspace')//当前浏览模式 个人空间还是 博客文章
 
     function nexticonClick() {
       context.emit("nexticonClick");
     }
-    function titleClick(index: number, event: MouseEvent|null) {
+    function titleClick(index: number|string|symbol, event: MouseEvent|null) {
 
       //当为点击事件而非coment点击事件触发时，将element指定为null
       //点击summury title获取选择的文章的index  摘要模式下，点击title需要记录当前高度
@@ -217,9 +217,9 @@ export default defineComponent({
      } 
     //  ,payload:MouseEvent
     const commentsInto = ref(false)
-    const commentElement = ref<HTMLElement|null>(null)
-    let COMMENTELEMENT = reactive({commentElement})//用于指定跳转时高度的相关元素
-     const commentsClick=(payload:MouseEvent,index:number)=>{//点击comment进行跳转
+    const commentElement= ref<HTMLElement|null>(null)
+    let COMMENTELEMENT = reactive({commentElement:commentElement.value as HTMLElement})//用于指定跳转时高度的相关元素
+     const commentsClick=(payload:MouseEvent,index:number|string|symbol)=>{//点击comment进行跳转
       
        commentsInto.value = !commentsInto.value
        titleClick(index, null);

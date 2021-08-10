@@ -59,11 +59,11 @@ export default defineComponent({
   @media screen {
     @media(max-width:1000px){
       .refresh,.up{
-        position: absolute;
-        margin-left: 95vw;
-        height: 5vw;
-        width: 5vw;
-        top: 85vh;
+        position: fixed;
+        right:0;
+        height: 25px;
+        width: 25px;
+        top: calc(100vh - 100px);
         z-index: 100;
       }
     }

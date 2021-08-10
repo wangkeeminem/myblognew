@@ -1,6 +1,6 @@
 <template>
 <div class="videoColumn" ref="videoColumn">
-  <div v-for="(item,index) in videoInfoList" :ref="currentIndex==index?'videoColumnItem':''" :class="currentIndex==index?'isSelected':''" @click="getIntoVideo(index,item.videoPath,$event)" :key="item">
+  <div v-for="(item,index) in videoInfoList" :ref="currentIndex==index?'videoColumnItem':''" :class="currentIndex==index?'isSelected':''" @click="getIntoVideo(index,item.videoPath,$event)" :key="index">
 <VideoColumnItem :videoItem="item"/>
 </div>
 </div>

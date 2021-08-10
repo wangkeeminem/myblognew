@@ -13,14 +13,12 @@ import BScroll from 'better-scroll'
 import ObserveDom from "@better-scroll/observe-dom";
 import { useStore } from 'vuex';
 
-import {debounce} from './../../../utils/debounce'
-import { useRoute } from 'vue-router';
 import router from '../../../router';
 
 export default defineComponent({
   name:'Scroll',
   emits:{
-    scroll:(payload:Ref)=>{return true}
+    scroll:(payload:any)=>{return true}
   },
   props:{
     commentElement:{
@@ -36,6 +34,7 @@ export default defineComponent({
     const store = useStore()
     const scrollUp = inject('scrollUp',Function,true)//函数 用于判断显示 页面刷新还是回到顶部 该判断仅在浏览summury下有效
     const oldPosition = ref(0)
+    const scrolltimer = ref<any>(0)
     onMounted(()=>{
     
     //初始化bs
@@ -54,15 +53,24 @@ export default defineComponent({
     scroll.value.on('pullingUp',()=>{
       // scroll.value.refresh()
     }) 
-
-    scroll.value.on('scroll',debounce((position:{x:number,y:number})=>{//d如果是summury，则将记录上传至vuex
-    scrollUp(position.y)//该判断仅在浏览summury 文章下均有效
     
-    if(computed(()=>store.state.articleMode).value==false)
-    {      
-      store.commit('setscrollPosition',position.y)
-    }//如果是true，则记录
-    }))
+    scroll.value.on('scroll',
+    function(position:{x:number,y:number}){
+      
+      let flag = false//以下是防抖
+       clearTimeout(scrolltimer.value)
+       scrolltimer.value=setTimeout(()=>{
+         flag = true
+         scrollUp(position.y)//该判断仅在浏览summury 文章下均有效
+    
+         if(computed(()=>store.state.articleMode).value==false)
+        {      
+         store.commit('setscrollPosition',position.y)
+         console.log('提交了y数据')
+    }//如果是true，则记录         
+       },300)
+    }
+    )
     watch(computed(()=>props.commentsInto),()=>{
       console.log('commentsInto变了吗');
         setTimeout(()=>{           
