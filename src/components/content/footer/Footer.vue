@@ -1,5 +1,13 @@
 <template>
-    <div class="footer" v-if="isfooterVisible"><a title="网站备案号"  class="webID" href="http://beian.miit.gov.cn/" >苏ICP备2021035085号</a></div>
+
+    <div class="footer" v-if="isfooterVisible">
+      <a title="网站备案号"  class="webID" href="http://beian.miit.gov.cn/" >苏ICP备2021035085号</a>
+      <div style="width:300px;margin:0 auto; padding:6px 0; ">
+		 		<a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=32039102000295" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="/src/assets/img/policeicon.png" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">苏公网安备 32039102000295号</p></a>
+		 	</div>
+    
+    </div>
+
 </template>
 
 <script lang='ts'>
@@ -35,6 +43,7 @@ export default defineComponent({
   display: block;
   margin-left: 50%; 
   transform: translateX(-50%);
+  text-align: center;
  }
  .webID:hover{
    filter: brightness(1.1);
@@ -42,8 +51,8 @@ export default defineComponent({
  }
  .footer{
    position:fixed;
-   width: 100%;
-   height: 20px;
+   width: 100vw;
+   height: 40px;
    background-color: black;
    bottom: 0;
    /* opacity: 0; */

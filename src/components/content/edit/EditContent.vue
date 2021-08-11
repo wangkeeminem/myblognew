@@ -1,21 +1,19 @@
 <template>
-
-  <textarea class="content"  v-model="contentInput" >PHP8 alpha2发布了，最近引入了一个新的关键字：match, 这个关键字的作用跟switch有点类似。
-
-这个我觉得还是有点意思，match这个词也挺好看，那么它是干啥的呢？PHP8 alpha2发布了，最近引入了一个新的关键字：match, 这个关键字的作用跟switch有点类似。
-
-这个我觉得还是有点意思，match这个词也挺好看，那么它是干啥的呢？</textarea>
+  
+  <textarea class="content"  v-model="contentInput" ></textarea>
 
 </template>
 
 <script lang='ts'>
-import { computed, defineComponent, inject, ref, watch} from 'vue'
+import {  defineComponent, inject, ref, watch} from 'vue'
 import { useStore } from 'vuex'
 import { readReeditContent } from '../../../utils/sessionStorageUtils'
 
+
+
 export default defineComponent({
   name:'EditContent',
-
+  components:{  },
   setup(){
 
     const store = useStore()
@@ -35,9 +33,14 @@ export default defineComponent({
       // console.log(newimagename,'变了');
       contentInput.value=contentInput.value+'\n'+newimagename+'\n'//将其在一起拼接 并且显示出来
     })
-
+    
+    
+    
+    
+    
+    
     return{
-      contentInput
+      contentInput,
     }
   }
 })
@@ -59,8 +62,10 @@ export default defineComponent({
     border: none;
     resize: none;
   }
+ 
   .content:focus{
     border: none;
   }
+ 
 
 </style>

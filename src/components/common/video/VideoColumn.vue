@@ -100,6 +100,7 @@ export default defineComponent({
       width: 84vw;
       height: auto;
       justify-content: center;
+      direction: ltr;
     }
     .videoColumn:hover{
     overflow:hidden;

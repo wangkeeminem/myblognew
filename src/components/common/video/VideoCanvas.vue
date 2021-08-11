@@ -45,8 +45,9 @@
         alt="volumeIcon"
       />
       </div>
-    <img class="fullScreenIcon" src="/src/assets/img/fullscreen.svg" alt="maxSize"  @click="switchScreen()">  
+    
     </div>
+    <img class="fullScreenIcon" src="/src/assets/img/fullscreen.svg" alt="maxSize"  @click="switchScreen()">  
     <img class="closeIcon" alt="closeIcon" src="/src/assets/img/close.svg" @click="closeClick"/>
     <div class="speedItem" v-show="bottomVisible">
     <span class="speed">{{ currentSpeed.toFixed(1)}}</span
@@ -193,7 +194,7 @@ export default defineComponent({
         bottomVisible.value=true//让控件显示出来
     }
     const canvasEnter = (event:MouseEvent)=>{
-        if(event.offsetY<(event.target as HTMLElement).clientHeight)//如果鼠标进入了幕布
+        if(event.offsetY<(event.target as HTMLElement).clientHeight+5)//如果鼠标进入了幕布
         bottomVisible.value=false//让控件显示出来
     }
     const closeClick = ()=>{
@@ -236,6 +237,7 @@ export default defineComponent({
   left: 0;
   width: 100%;
   top: 50%;
+  height: 80%;
   transform: translateY(-50%);
   background-size: cover;
 }
@@ -332,6 +334,9 @@ export default defineComponent({
 .fullScreenIcon:hover{
   opacity: 0.8;
 }
+.closeIcon{
+  display: none;
+}
 @media screen {
   @media (max-width: 1000px) {
     .controller {
@@ -346,26 +351,31 @@ export default defineComponent({
     }
     .speedBar {
       left: 45vw;
-      width: 50%;
-      bottom: 5.5%;
-      transform: translateX(-50%);
+      width: 40vw;
+      bottom: 15px;
+      height: 10px;
+      transform: translateX(-50%) translateY(50%);
     }
     .speedIcon {
       right: 10vw;
       height: 20px;
+      bottom: 5px;
       transform: translateY(0%);
     }
     .speed {
       right: 15vw;
       height: 20px;
-      bottom: 5%;
+      bottom: 5px;
       transform: translateY(0%);
     }
     .closeIcon{
+      display: block;
       position: absolute;
-      top: 0;
-      left: 0;
+      left: 1.5vw;
       height: 15px;
+    }
+    .closeIcon:hover{
+      opacity: 0.8;
     }
   }
 }
