@@ -3,7 +3,7 @@
 
   </div>
   <div class="headercontainer2" :class="flattenContainer?'flattenContainer':''">
-    <a class='title' href="javascript:;" title="KE's Blog" @click="titleclick">前端菜鸡</a>
+    <a class='title' href="javascript:;" title="KE's Blog" @click="titleclick">王克的个人博客</a>
     <Controlbar class="Controlbar2" @itemclick="itemclick" @barFlatten="barFlatten"/>
     <LoginButton/>
     <RegisterButton v-if="registerVisible"/>

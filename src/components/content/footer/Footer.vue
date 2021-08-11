@@ -11,8 +11,13 @@ export default defineComponent({
     const isfooterVisible = ref(false)
     useRouter().afterEach((to,from,failure)=>{
       isfooterVisible.value=to.path=="/home"
+      isfooterVisible.value = false
     })
-    
+    addEventListener('scroll',(e)=>{
+      if(document.documentElement.scrollHeight==document.documentElement.scrollTop+document.documentElement.clientHeight)
+      {isfooterVisible.value=true}
+      else {isfooterVisible.value=false}
+    })
     return{
       isfooterVisible
     }
@@ -25,10 +30,10 @@ export default defineComponent({
   color: aliceblue;
   height: 14px;
   width: 20vw;
-  line-height: 14px;
-  font-size: 12px;
+  line-height: 20px;
+  font-size: 15px;
   display: block;
-  margin-left: 50vw; 
+  margin-left: 50%; 
   transform: translateX(-50%);
  }
  .webID:hover{
@@ -38,10 +43,10 @@ export default defineComponent({
  .footer{
    position:fixed;
    width: 100%;
-   height: 14px;
+   height: 20px;
    background-color: black;
    bottom: 0;
-   opacity: 0;
+   /* opacity: 0; */
 }
 .footer:hover{
   opacity: 0.8;
