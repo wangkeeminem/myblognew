@@ -5,7 +5,7 @@ export default function replyComments(commentsList:comments[],newcomments:commen
   commentsList.forEach((item:comments,index)=>{//这是reply
   if(item.publishtime==newcomments.replyto)//遍历 如果匹配的上
   {
-    console.log('回复主贴');
+
     newcomments.layer=item.layer+1//归于reply layer的下一层
     newcomments.topto=newcomments.layer==1?newcomments.replyto:item.topto//如果是第一层的回复 那么topto就是replyto（即主题帖的时间戳），后续所有的topto实际上都是继承他上一层的topto 即最终的主题贴
    ;(commentsList[index].thread as comments[]).unshift(newcomments)

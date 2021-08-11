@@ -28,7 +28,7 @@ export default defineComponent({
     const textareaEL = ref<HTMLElement | null>(null)
 
     const publishclickInitial = (payload:number,event:Event)=>{
-      console.log('hahaha')
+    
       context.emit('publishclick',{payload,event})
       
       nextTick(()=>{(textareaEL.value as HTMLElement)?.focus()})
@@ -36,7 +36,7 @@ export default defineComponent({
     const launchClick = ()=>{
       context.emit('launchClick')          
       inputContent.value = ''//清空留言板
-      console.log('清空了',inputContent.value)
+    
     }
     const inputAction = ()=>{
       context.emit('inputAction',inputContent.value)

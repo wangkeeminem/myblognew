@@ -70,8 +70,6 @@ export default defineComponent({
       ;(props.publishclick as Function)({payload,event});//comment公用重构时参数结构变化了
     };
     const deleteClick = (id:number,articleId:string, event: Event)=>{
-      console.log(id,'主留言被点了');
-      console.log(articleId,'这是文章的publishtime');
       if(confirm('确定要删除吗？'))
       deleteComment(id,articleId)
 

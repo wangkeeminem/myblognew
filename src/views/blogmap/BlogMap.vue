@@ -22,7 +22,7 @@ export default defineComponent({
   name: "BlogMap",
   components: { BlogMapContent },
   setup() {
-    console.log("进入BlogMap");
+   
     const store = useStore();
     const userinfo = readUser();
 

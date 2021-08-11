@@ -3,10 +3,10 @@ let funReturn:any=null
 export default function dbounce(fun:Function,delay:number=300){
   if (timer) {
     clearTimeout(timer)
-    console.log('取消定时器')
+    
   }
   else
-  console.log('生成定时器')
+  
   timer= setTimeout(() => {
     // dbounce(fun,delay)
     funReturn=fun
@@ -33,7 +33,7 @@ export default function dbounce(fun:Function,delay:number=300){
 //            clearTimeout(resizeTimer)
 //        }
 //        resizeTimer=setTimeout(function(){
-//            console.log("window resize");
+//          
 //        },400);
 //    }
 // );

@@ -28,7 +28,7 @@ export  function commentsSetup(Totalcomments:{result:comments[]},mode:string|num
 
   const publishclick = (params:{payload:number,event:Event})=>{
     const {payload,event} = params
-    console.log(mode,'这是mode');
+    
     if(readUser()){
       publishVisible.value = !publishVisible.value//进入发布栏显示模式
       isReplyNo.value = payload//通过reply模式进入时，将reply转为true

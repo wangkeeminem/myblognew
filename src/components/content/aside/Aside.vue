@@ -21,7 +21,7 @@ export default defineComponent({
     const isShow = ref(true)
     router.afterEach((to, from, failure) => {
       isShow.value = (!to.path.includes('pace'))//应该是space 但是大小写命名冲突
-      //  console.log(to.path)
+      
     })
     const goToVideo = () => {
       router.push({ name: 'video' })

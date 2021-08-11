@@ -41,14 +41,14 @@ export default defineComponent({
     const searchInput = ref('')
     const countHidden = ref(true)
     const searchIconClick = (event:MouseEvent) => {   
-      console.log('点击了') ;
+   
       visible.value = !visible.value;
       if(!searchInput.value){//如果搜索输入不为0
-      console.log('点击了1',INPUT.value)
+   
         countHidden.value = true
         return null}
       else if (!visible.value){//如果是隐藏状态的点击进入
-        console.log('搜索');
+     
         searchInput.value = searchInput.value.trim()
         if(searchInput.value.length<2)
         {
@@ -63,16 +63,16 @@ export default defineComponent({
         searchInput.value = ''
       }
       else{
-        console.log('进入搜索')
+        
         countHidden.value = false
         //check article请求 先不写
         }
     };
     const searchEnter = ()=>{
-        console.log('搜索')
+        
         searchInput.value = searchInput.value.trim()
         if(searchInput.value.length<2)return alert('请不要输入小于2个字符\n你确定你要搜索什么吗？')
-        // console.log(searchInput.value);
+        
         countHidden.value = false
          router.push('/search')
         store.commit('setSearchContent',searchInput.value)

@@ -19,7 +19,7 @@ export default defineComponent({
   name: "Search",
   components: { Summary },
   setup() {
-     console.log("进入"+'Search');
+   
      const store = useStore();
      const userinfo = readUser();
      const articles = reactive<{ result: PublishInfo[] }>({ result: [] });
@@ -52,7 +52,7 @@ export default defineComponent({
      
       searchforArticle(readSearchContent(),currentpage).then(res=>{//后面点击触发 加载 本地会话存储搜索的更多页面
       if (res.data.searchResult.length==0) return alert('没有更多内容了')
-      // console.log(res.data.searchResult);
+ 
       articles.result=articles.result.concat(res.data.searchResult as PublishInfo[])      //与新请求的列表连接起来
        store.commit('setSearchCount',res.data.searchResult.length)//将请求到的搜索数量存入
     })

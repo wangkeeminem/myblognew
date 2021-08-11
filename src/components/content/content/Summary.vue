@@ -126,11 +126,11 @@ export default defineComponent({
   setup(props, context) {
     onMounted(()=>{
      
-      console.log('Mounted时刷新了：',SCROLL);
+   
         (SCROLL.scroll as BScroll).refresh()     
     })
     onUpdated(()=>{   
-      console.log('update时刷新了：',SCROLL);
+     
         (SCROLL.scroll as BScroll).refresh()     
     })
     const store = useStore();
@@ -203,15 +203,15 @@ export default defineComponent({
     };
 
      const deleteClick = (deleteId:string|number,event:Event)=>{
-      console.log(deleteId,'被点了'); 
+     
       if (!yourSpaceMode.value)//如果不是spaceMode 发送网络请求删除
       {if(confirm('确定要删除吗？'))
       deleteArticle(deleteId as string)}
       else{
         // const index = deleteId.toString()
         if(confirm('确定要删除吗？'))
-        removeOneArticle(deleteId as number).then(res=>console.log(res)).catch((rej)=>alert(rej))//以key值去删除
-        // console.log(console.log('将要删除的是',deleteId))
+        removeOneArticle(deleteId as number).then().catch((rej)=>alert(rej))//以key值去删除
+       
       }
       
      } 

@@ -47,10 +47,9 @@ export default defineComponent({
   },
   setup(props) {
 
-    console.log('header setup启动');
-    console.log('setupheader页的总评论结果是：',props.Totalcomments); 
+
     const Totalcomments=computed(()=>props.Totalcomments);
-    onMounted(()=>console.log('header加载好了'))
+
     const store = useStore()
     const deviceMode = computed(()=>store.state.deviceMode)
     return {deviceMode,...commentsSetup( Totalcomments.value as {result:comments[]},'comments')}//封装的一个发送留言的函数 只要引入Totalcomments就可以展示了

@@ -55,14 +55,14 @@ export default defineComponent({
     const deviceMode = computed(() => store.state.deviceMode)
     const changeMode = () => {
       store.commit('setDeviceMode', deviceMode.value == 'computer' ? 'mobile' : 'computer')
-      console.log(deviceMode);
+      
     }
     useRouter().afterEach((to, from, failure) => {
       videoMode.value = (to.path.includes('video'))
-      console.log('这是videoMode', videoMode.value)
+      
     })
     const isLogout = ref(!readUser())//是否已登录
-    console.log(isLogout)
+  
     return { changeMode, deviceMode, isLogout, videoMode }
   }
 })

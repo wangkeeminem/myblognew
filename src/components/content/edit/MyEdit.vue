@@ -90,20 +90,18 @@ export default defineComponent({
         let content = store.state.content? store.state.content:readReeditContent().content
         content=content.replace(/\n/g,'<br>')//处理回车  将占位图片字符串替换成html图片标签 进行回车键的转换 这里面会有文件名被替换的风险。。需要在文件拖入时处理一下啊文件名 一定不要放在循环里面！！
         content=content.replace(/\s/g,'&nbsp;')//处理空格 将占位图片字符串替换成html图片标签 进行空格键的转换  这里面会有文件名被替换的风险。。主要是空格影响！！！！
-        // console.log(content.length,'这是content');
+      
         if(readImageList()){
         for(let i in readImageList()){
           //文件名md5 hash化  并且将其与base64数据对应
           content=content.replace(new RegExp(i,'g'),readImageList()[i])//将占位图片字符串替换成html图片标签
-          // console.log(content.match(new RegExp(i,'g')));
-          // console.log(i.length);          
+          
         }}
         if(readReeditImages()){
         for(let i in readReeditImages()){
           //文件名md5 hash化  并且将其与base64数据对应
           content=content.replace(new RegExp(i,'g'),readReeditImages()[i])//将编辑部分的占位图片字符串替换成html图片标签
-          // console.log(content.match(new RegExp(i,'g')));
-          // console.log(i.length);          
+          
         }}
         const editArticleId = readReeditContent()?readReeditContent().editArticleId:''//如果有编辑内容 id赋给它 否则为空值
         const imagePathList = readReeditContent()?readReeditContent().imagePathList:[]//如果有编辑内容 图片list赋给它
@@ -112,7 +110,7 @@ export default defineComponent({
         const newArticle = {title,details,content,tagChoice,publishTime,editArticleId,imagePathList}
         if(!yourSpaceMode.value)//如果不是个人空间模式
         getpublishRequest(newArticle).then(res=>{
-        // console.log(res.data.articles); 
+  
         published.value = true                 
         store.commit('initialEdit')  //移除vuex数据
         removeImageList()//移除本地化存储图片列表
@@ -122,7 +120,7 @@ export default defineComponent({
         }, 5000); 
         })    
         else {//如果是用户个人空间模式
-          console.log('将写自己的文章',newArticle)
+   
           newArticle.tagChoice= userChoiceTags.value//更改tag
           openAndAddArticle(newArticle).then(res=>{
           published.value = true                 

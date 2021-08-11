@@ -25,7 +25,7 @@ export default defineComponent({
       currentIndex.value = index   //将当前所选为true
       // router.push('/video?videoId=')//点击跳转进具体video路由
       const videoInfoListCurrent = JSON.stringify(videoInfoList.value)
-      // console.log(videoPath)
+  
       router.push({params:{index,videoPath,videoInfoListCurrent },name:'video'})//点击跳转进具体video路由,将当前选中的index、视频path和视频list传过去
       
     }

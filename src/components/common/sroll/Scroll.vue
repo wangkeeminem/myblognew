@@ -66,29 +66,29 @@ export default defineComponent({
          if(computed(()=>store.state.articleMode).value==false)
         {      
          store.commit('setscrollPosition',position.y)
-         console.log('提交了y数据')
+   
     }//如果是true，则记录         
        },300)
     }
     )
     watch(computed(()=>props.commentsInto),()=>{
-      console.log('commentsInto变了吗');
+      
         setTimeout(()=>{           
-        console.log('clientHeight是：',(props.commentElement as HTMLElement).offsetHeight)
+      
         scroll.value.scrollToElement(props.commentElement as HTMLElement,200,0,(props.commentElement as HTMLElement).offsetHeight)
            },300) 
     })
     watch( computed(()=>store.state.articleMode),(newmode,oldmode)=>{
-      // watch(props.commentElement,()=>{console.log('当前commentElement变化了')})
+  
       if (newmode)//如果是old转到文章模式 跳至顶部 并记录当前位置？
        {
-        console.log(props.commentElement);  
+    
         scroll.value.scrollTo(0,0)
                
        }
       else{//如果是跳至summury模式，跳转到oldposition 
-      console.log('gaga');
-          // console.log('300ms后将要跳转到',oldPosition.value);
+    
+       
           setTimeout(() => {
             scroll.value.scrollTo(0,oldPosition.value) 
           }, 300);
@@ -104,7 +104,7 @@ export default defineComponent({
     router.afterEach(()=>{
       setTimeout(() => {
         scroll.value.refresh()
-        console.log('router跳转后刷新了')
+  
       }, 600);
     }
     )
@@ -112,7 +112,7 @@ export default defineComponent({
    onBeforeUpdate(()=>{
       if(computed(()=>store.state.articleMode).value==true)//此时数据已经转换到了文章页，监听之前vuex中的位置 并赋值      
          {oldPosition.value=store.state.scrollPosition
-        //  console.log(store.state.scrollPosition,'有更新') 
+        
          }
     })
 

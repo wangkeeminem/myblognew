@@ -161,14 +161,14 @@ export default defineComponent({
       //在跳转前将视频元素删除
       clearTimeout(timerForDisp.value)//将原本延时器清除
       video.pause();
-      // console.log(document.getElementsByTagName('video'))
+     
       if (document.getElementById(props.currentIndex))
         (document.getElementById(props.currentIndex) as HTMLElement).remove(); //删除当前的video元素
      
     });
 
     const changeTime = (event: MouseEvent) => {
-      // console.log('要变一下进度',(event.target as HTMLElement).clientWidth)
+    
       clearTimeout(timerForDisp.value)//将原本延时器清除
       const totalLenght = (event.target as HTMLElement).clientWidth;
       video.currentTime = (event.offsetX / totalLenght) * currentDuration.value; //按照点击位置占据的百分比来计算进度事件   
@@ -200,7 +200,7 @@ export default defineComponent({
     const closeClick = ()=>{
       clearTimeout(timerForDisp.value)//将原本延时器清除
       video.pause();
-      // console.log(document.getElementsByTagName('video'))
+  
       if (document.getElementById(props.currentIndex))
         (document.getElementById(props.currentIndex) as HTMLElement).remove(); //删除当前的video元素
       props.closeVideo()//跳至选择界面      

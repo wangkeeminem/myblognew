@@ -55,9 +55,9 @@ export default defineComponent({
     const tagList = ref<string[]>([])
     const tagInput = ref('')
     const yourSpaceMode = ref(useRoute().path=='/YourEditSpace')//当前浏览模式 个人空间还是 博客文章
-    console.log(useRoute().path,yourSpaceMode)
+    
     function choicetag(index: number, event: Event) {
-      console.log('点了第',index);
+     
       store.commit("changeTagChoice", index);
       isChoice.value = computed(()=>store.state.tagChoice).value
     }

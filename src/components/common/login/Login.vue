@@ -67,7 +67,7 @@ export default defineComponent({
       getlogin({username,password,lastlogintime}).then(res=>{
   
         if(res.data.message=='OK'){
-        console.log('登陆成功');
+        
         store.commit('checkUserPermission',res.data.title)//把界面栏目依据权限更新
         store.commit('checkUserRouter',res.data.router)//把界面栏目依据权限更新
         loginok.value=true  //将登录状态转为OK,登录框消失

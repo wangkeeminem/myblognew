@@ -20,7 +20,7 @@ export default defineComponent({
   components: {
     CommentsHeader},
   setup() {
-    console.log("进入comments");
+   
     const userinfo = readUser()
     const store = useStore()
     
@@ -39,10 +39,10 @@ export default defineComponent({
       result: [],
     });
     const isDownload = ref(false)
-    onMounted(()=>{console.log('创建好组件 comments mounted');
+    onMounted(()=>{
     
       getComments().then((res) => {
-      console.log('请求到评论数据');
+      
       Totalcomments.result = res.data.Totalcomments as comments[]
        isDownload.value = true
     });

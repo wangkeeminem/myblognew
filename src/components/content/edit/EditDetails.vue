@@ -20,7 +20,7 @@ export default defineComponent({
     const month = ref(monthTable[date.getMonth()]);
     const year = ref(date.getFullYear());
     const author = ref(readUser().username);
-    // console.log(author);
+ 
     const details = reactive({ day, month, year, author });
     store.commit("changeDetails", details);
     //这里detail是依据环境而改变的,每次组件加载都应该是最新状态(除了author)

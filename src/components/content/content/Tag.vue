@@ -54,7 +54,7 @@ export default defineComponent({
     router.afterEach((to,from,failure)=>yourSpaceMode.value=to.path=='/yourspace')
     function tagclick(index:number){
       if (yourSpaceMode.value) 
-      {console.log(yourSpaceMode) 
+      {
       return {}}
       else{
        savechoice(index)
@@ -63,7 +63,7 @@ export default defineComponent({
        router.push(store.state.userRouter[index])}
     }
     const commentsClick = (payload:MouseEvent)=>{
-      // console.log(payload);
+     
       context.emit('commentsClick',payload)
     }
     

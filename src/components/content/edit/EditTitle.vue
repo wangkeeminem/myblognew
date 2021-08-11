@@ -16,9 +16,9 @@ export default defineComponent({
   },
   setup(props){
     const store = useStore()
-    // console.log(titleStore);
+    
     const titleInput = ref(readReeditContent()?readReeditContent().title:store.state.title)//注意 这里首次创作内容并没有用到本地化存储，故刷新后不会保留 为了防止vuex的只读报错 规定input与vuex为单向赋值 而不是computed计算属性
-    console.log(readReeditContent()?.title);
+   
     watch(titleInput,(title)=>{
       store.commit('changeTitle',title)//同步至vuex
     })

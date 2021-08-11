@@ -34,7 +34,7 @@ export default defineComponent({
   name: "VideoPlayer",
   components: { VideoColumn, VideoCanvas },
   setup() {
-    console.log("进入videos");
+ 
     const router = useRouter();
     const VideoColumnVisible = ref(true);//视频栏目可见
     const videoMode = ref(false);//视频模式关闭

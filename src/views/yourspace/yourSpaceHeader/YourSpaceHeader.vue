@@ -73,11 +73,11 @@ export default defineComponent({
           : scrollDistance.value > 2
           ? 2
           : scrollDistance.value;
-      console.log(scrollDistance.value);
+     
       event.preventDefault();
     };
     const imgTouchStart = ()=>{
-      console.log('imgTouchStart')
+     
       imgTouchStartTime.value=Date.now()
     }
     watch(imgTouchStartTime,(newval,oldval)=>{

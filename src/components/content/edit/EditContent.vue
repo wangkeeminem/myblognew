@@ -23,14 +23,13 @@ export default defineComponent({
 //         content=content.replace(/\s/g,'&nbsp;')
 
     watch(contentInput,(content)=>{//同步输入内容至vuex
-    //  console.log('编辑框输入内容变了');
-    //  console.log(content);
+   
       store.commit('changeContent',content)
     })
     
     const newimagename:any=inject('imagename')
     watch(newimagename,(newimagename)=>{
-      // console.log(newimagename,'变了');
+  
       contentInput.value=contentInput.value+'\n'+newimagename+'\n'//将其在一起拼接 并且显示出来
     })
     

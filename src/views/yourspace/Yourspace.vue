@@ -23,12 +23,12 @@ export default defineComponent({
    openAndReadAllArticles().then(res=>
    {if (res) {    
        articles.result= (res as any)
-       console.log( articles.result)
+
        articles.result.sort((a:any,b:any)=>b.publishTime-a.publishTime)
-       console.log(articles.result)
+
    }}
    )//从数据库获取数据 保存到变量中
-  //  console.log(articles.result,'这是文章页获取的articles.result')
+ 
 
   
   const myspaceScrollUp = (height:number)=>{

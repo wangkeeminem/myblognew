@@ -8,7 +8,7 @@ import { useStore } from "vuex";
 import { PublishInfo } from "../types/publishInfo";
 
 export default function (url:string) {//url需要是'/'格式的
-  console.log("进入"+url);
+ 
   const store = useStore();
   const userinfo = readUser();
   const articles = reactive<{ result: PublishInfo[] }>({ result: [] });
@@ -17,7 +17,7 @@ export default function (url:string) {//url需要是'/'格式的
   if (userinfo)
     getlogin(userinfo).then((res) => {
       //以local信息校验登录
-      console.log('登陆成功');
+   
       if (res)
       {
         // console.log(res.data.title);
@@ -32,7 +32,7 @@ export default function (url:string) {//url需要是'/'格式的
     })
 
     getArticleDatas(url).then(res=>{//先裸奔一次，获取page1的内容 后刷新
-      // console.log(res,'这是请求来的result');
+     
     articles.result =res.data.articles  
   })
   // const summuryLoaded = ()=>{ getBSandRefresh()}//summury加载后刷新
