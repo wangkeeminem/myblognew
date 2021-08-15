@@ -9,7 +9,7 @@
     <div class="publish" :class="published?'published':''" @click="publish">
       <img class='launchicon' src="../../../../src/assets/img/publishicon.png" alt="">
       </div>
-    <input class='imageinput' type="file" @change='imageinput'>
+    <!-- <input class='imageinput' type="file" @change='imageinput' v-if="false"> -->
     
   </div>
 </Scroll>
@@ -18,7 +18,7 @@
 
 <script lang='ts'>
 
-import {defineComponent,onMounted,onUpdated,provide,reactive,ref} from 'vue'
+import {defineComponent,onMounted,onUpdated,reactive,ref} from 'vue'
 import EditTitle from 'components/content/edit/EditTitle.vue'
 import EditDetails from 'components/content/edit/EditDetails.vue'
 import EditContent from 'components/content/edit/EditContent.vue'
@@ -28,13 +28,13 @@ import { useStore } from 'vuex'
 import { useRoute, useRouter } from 'vue-router'
 import {getpublishRequest} from '../../../network/publish'
 import imageList from '../../../types/imagelist'
-import {saveImageList,readImageList,removeImageList, readReeditContent, removeReeditContent, readReeditImages, readMenulist}  from '../../../utils/sessionStorageUtils'
+import {readImageList,removeImageList, readReeditContent, removeReeditContent, readReeditImages}  from '../../../utils/sessionStorageUtils'
 import Scroll from '../../common/sroll/Scroll.vue'
 import { readUser } from '../../../utils/localStorageUtils'
 
 import BScroll from '@better-scroll/core'
 
-import {openAndAddArticle, openAndReadAllArticles} from '../../../utils/indexedDBArticle'
+import {openAndAddArticle} from '../../../utils/indexedDBArticle'
 
 // import   { Md5 } from 'ts-md5'
 export default defineComponent({
@@ -54,30 +54,30 @@ export default defineComponent({
     // const hostMode = ref(readMenulist().length>7)//如果栏目大于7个 为host博客文章发表模式 会显示选择文章tag 
     const yourSpaceMode = ref(useRoute().path=='/YourEditSpace')//当前浏览模式 个人空间还是 博客文章
     const userChoiceTags = ref<string[]>([])
-//图片输入的处理
-    function imageinput(event:Event){//有图片输入时  添加图片图标在edit总页面
-      const reader = new FileReader()
+//图片输入的处理 富文本引入后 弃用
+    // function imageinput(event:Event){//有图片输入时  添加图片图标在edit总页面
+    //   const reader = new FileReader()
       
-      imagename.value = (event.target as any).files[0].name.replace(/\s/g,'heheh')+new Date().toLocaleTimeString()//传入的图片的名字 需要把空格的影响替换掉 可以作为图片的占位坑 为防止重名替换混乱 加个时间戳 处理以下空格？
+    //   imagename.value = (event.target as any).files[0].name.replace(/\s/g,'heheh')+new Date().toLocaleTimeString()//传入的图片的名字 需要把空格的影响替换掉 可以作为图片的占位坑 为防止重名替换混乱 加个时间戳 处理以下空格？
 
       
-      // store.commit('contentAddImage',imagename)//更新vuex内容
-      reader.readAsDataURL((event.target as any).files[0])
+    //   // store.commit('contentAddImage',imagename)//更新vuex内容
+    //   reader.readAsDataURL((event.target as any).files[0])
       
-      reader.onload=()=>{
-        if (reader.result){
-        imagesrc.value = reader.result as string//传入的图片的地址 到时候作为src的值
+    //   reader.onload=()=>{
+    //     if (reader.result){
+    //     imagesrc.value = reader.result as string//传入的图片的地址 到时候作为src的值
 
-        // imagelist[imagename.value]=imagesrc.value//image name的hash与src键值对 image name使用md5加密
-        imagelist[imagename.value]=`<img src="${imagesrc.value}"  alt="${imagename.value}" style="width:100%;margin:10px auto;object-fit:scale-down">`//生成图片名称和响应图片模板的键值对
-        saveImageList(imagelist)
-        alert('图片加载完毕')
+    //     // imagelist[imagename.value]=imagesrc.value//image name的hash与src键值对 image name使用md5加密
+    //     imagelist[imagename.value]=`<img src="${imagesrc.value}"  alt="${imagename.value}" style="width:100%;margin:10px auto;object-fit:scale-down">`//生成图片名称和响应图片模板的键值对
+    //     saveImageList(imagelist)
+    //     alert('图片加载完毕')
         
-         //图片的模板字符
-        }
-      }
-    }
-    provide('imagename',imagename)//将image的名字传给editcontent组件
+    //      //图片的模板字符
+    //     }
+    //   }
+    // }
+    // provide('imagename',imagename)//将image的名字传给editcontent组件
 
 
 //发表文章
@@ -88,8 +88,8 @@ export default defineComponent({
         const details = store.state.details
         const publishTime =Date.now()
         let content = store.state.content? store.state.content:readReeditContent().content
-        content=content.replace(/\n/g,'<br>')//处理回车  将占位图片字符串替换成html图片标签 进行回车键的转换 这里面会有文件名被替换的风险。。需要在文件拖入时处理一下啊文件名 一定不要放在循环里面！！
-        content=content.replace(/\s/g,'&nbsp;')//处理空格 将占位图片字符串替换成html图片标签 进行空格键的转换  这里面会有文件名被替换的风险。。主要是空格影响！！！！
+        // content=content.replace(/\n/g,'<br>')//处理回车  将占位图片字符串替换成html标签 进行回车键的转换 这里面会有文件名被替换的风险。。需要在文件拖入时处理一下啊文件名 一定不要放在循环里面！！
+        // content=content.replace(/\s/g,'&nbsp;')//处理空格 将占位图片字符串替换成html标签 进行空格键的转换  这里面会有文件名被替换的风险。。主要是空格影响！！！！
       
         if(readImageList()){
         for(let i in readImageList()){
@@ -156,7 +156,8 @@ export default defineComponent({
     }
 
     return{
-      publish,published,imageinput,imagesrc,imagename,scroll,editCancelClick,addTags
+      publish,published,imagesrc,imagename,scroll,editCancelClick,addTags,
+      // imageinput,//富文本引入弃用
     }
   }
 })

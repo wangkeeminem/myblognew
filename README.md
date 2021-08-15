@@ -65,3 +65,22 @@
 
 下一阶段开辟新分支：编辑器markdown版本的实现
 
+
+
+:fire:2.2.0☞**3.0.0**
+
+1.引入wangEditorhttps://www.wangeditor.com/作为文本编辑组件，实现富文本编辑。舍弃 之前自定义编辑大量逻辑代码。
+
+**为何选择 wangEditor**？
+
+- 简洁、轻量级、[文档](https://www.wangeditor.com/doc/)齐全
+- 万星项目 [Github Star 1w+](https://github.com/wangeditor-team/wangEditor/releases)
+- npm 周下载量 1w+
+- CDN 月下载量百万+（来自 [jsdelivr](https://www.jsdelivr.com/package/npm/wangeditor)）
+- QQ 群及时答疑
+- [开源团队](https://www.wangeditor.com/doc/#开发人员)维护，非个人单兵作战
+
+https://github.com/wangeditor-team/wangEditor
+
+2.更改打包文件大小设置（因引入了第三方库影响）
+

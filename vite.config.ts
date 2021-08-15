@@ -5,6 +5,9 @@ import {resolve} from 'path'
  
 export default defineConfig({
   plugins: [vue()],
+  build:{
+    chunkSizeWarningLimit:1500,
+  },
   resolve: {
   alias:{
     'src': resolve(__dirname, './src'),

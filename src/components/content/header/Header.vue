@@ -5,8 +5,8 @@
   <div class="headercontainer2" :class="flattenContainer?'flattenContainer':''">
     <a class='title' href="javascript:;" title="KE's Blog" @click="titleclick">王克的个人博客</a>
     <Controlbar class="Controlbar2" @itemclick="itemclick" @barFlatten="barFlatten"/>
-    <LoginButton/>
-    <RegisterButton v-if="registerVisible"/>
+    <LoginButton v-if="loginAndRegister"/>
+    <RegisterButton v-if="registerVisible&&loginAndRegister"/>
   </div>
 </template>
 
@@ -18,7 +18,7 @@ import RegisterButton from 'components/common/register/RegisterButton.vue'
 import {savechoice} from '../../../utils/sessionStorageUtils'
 import {useRouter} from 'vue-router'
 import { useStore } from 'vuex'
-
+import { readUser } from '../../../utils/localStorageUtils'
 
 export default defineComponent({
   name:'Header',
@@ -28,7 +28,9 @@ export default defineComponent({
   setup(){
     const store = useStore()
     const registerVisible = computed(()=>store.state.registerVisible)
-
+     
+    const loginAndRegister = ref(false||readUser())
+    const darkWord = ref('')
     const router = useRouter()
     const flattenContainer = ref(false)
     function itemclick(index:[number,string]){//接收controlbar的click事件 跳转响应路由，储存至本地index 防止重载时出错
@@ -43,8 +45,14 @@ export default defineComponent({
       const titleclick = ()=>{
         router.go(0)
       }
+      document.addEventListener('keypress',(e:KeyboardEvent)=>{
+        darkWord.value+=e.key
+        if(darkWord.value.match('login\\*')){
+          loginAndRegister.value=true
+        }
+      })
     return{
-      itemclick,registerVisible,barFlatten,flattenContainer,titleclick
+      itemclick,registerVisible,barFlatten,flattenContainer,titleclick,loginAndRegister
     }
   }
 })

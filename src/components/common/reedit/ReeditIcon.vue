@@ -1,9 +1,10 @@
 <template>
-  <div v-if="iconVisible" class="deleteicon">Edit</div>
+  <div v-if="iconVisible||yourSpaceMode" class="deleteicon">Edit</div>
 </template>
 
 <script lang='ts'>
 import {computed, defineComponent, ref} from 'vue'
+import { useRoute } from 'vue-router'
 import { useStore } from 'vuex'
 
 export default defineComponent({
@@ -12,9 +13,9 @@ export default defineComponent({
     const store=useStore()
     const permission=computed(()=>store.state.userPermission.length).value
     const iconVisible = ref(permission>7) //如果栏目多于7个 则显示删除权限
-    
+    const yourSpaceMode=ref(useRoute().path=="/yourspace")
     return{
-      iconVisible
+      iconVisible,yourSpaceMode
     }
   }
 })

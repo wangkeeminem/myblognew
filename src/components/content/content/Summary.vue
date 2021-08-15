@@ -90,6 +90,7 @@ import publishInfo from "../../../types/publishInfo";
 import { savechoice, saveReeditContent, saveReeditImages } from "../../../utils/sessionStorageUtils";
 import imageList from "../../../types/imagelist";
 import { removeOneArticle } from "../../../utils/indexedDBArticle";
+import 'highlight.js/styles/monokai-sublime.css'
 export default defineComponent({
   name: "Summary",
   components: {
@@ -206,11 +207,12 @@ export default defineComponent({
      
       if (!yourSpaceMode.value)//如果不是spaceMode 发送网络请求删除
       {if(confirm('确定要删除吗？'))
-      deleteArticle(deleteId as string)}
+      deleteArticle(deleteId as string).then(res=>router.go(0)).catch(rej=>alert(rej))
+    }
       else{
         // const index = deleteId.toString()
         if(confirm('确定要删除吗？'))
-        removeOneArticle(deleteId as number).then().catch((rej)=>alert(rej))//以key值去删除
+        removeOneArticle(deleteId as number).then((res)=>router.go(0)).catch((rej)=>alert(rej))//以key值去删除
        
       }
       
@@ -226,19 +228,25 @@ export default defineComponent({
      }
      const reediitClick = (item:publishInfo,event:Event)=>{
 
-       savechoice(7)
-       const reeditImageList:imageList = {} 
-       item.content.match(/<img src.*?>/g)?.forEach((val,index,array)=>{
-         reeditImageList['editimage'+index] = val//保存页面展示 与实际img标签的键值对
-         item.content=item.content.replace(val,'editimage'+index)//页面展示更替
-       })
-       item.editArticleId = item._id//把原有的_id 给editArticleId _id在传给服务器时需被舍弃
-       saveReeditImages(reeditImageList)//保存待编辑图片标签页信息
-       router.push('/Myspace').then(()=>{//点击编辑 跳到编辑页 将值保存到会话页面
+       
+        if(yourSpaceMode.value)//如果是个人模式 // 因富文本引入 弃用
+        {
+          savechoice(6)
+        item.editArticleId = item._id//把原有的_id 给editArticleId _id在传给服务器时需被舍弃
+        // saveReeditImages(reeditImageList)//保存待编辑图片标签页信息  因富文本引入 弃用
+       router.push('/YourEditSpace').then(()=>{//点击编辑 跳到编辑页 将值保存到会话页面
        saveReeditContent(item)
        }).then(()=>router.go(0))//刷新一下加载（此时已到编辑页）
-       
+        }
+       else{
+        savechoice(7)
+       item.editArticleId = item._id//把原有的_id 给editArticleId _id在传给服务器时需被舍弃
+      //  saveReeditImages(reeditImageList)//保存待编辑图片标签页信息  因富文本引入 弃用
+       router.push('/Myspace').then(()=>{//点击编辑 跳到编辑页 将值保存到会话页面
+       saveReeditContent(item)
+       }).then(()=>router.go(0))//刷新一下加载（此时已到编辑页）  
      }
+    }
     //切换设备模式
     const deviceMode = computed(()=>store.state.deviceMode)
     
@@ -267,6 +275,54 @@ export default defineComponent({
   },
 });
 </script>
+
+<style>
+/* table 样式 */
+table {
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+}
+table td,
+table th {
+  border-bottom: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  padding: 3px 5px;
+}
+table th {
+  border-bottom: 2px solid #ccc;
+  text-align: center;
+}
+
+/* blockquote 样式 */
+blockquote {
+  display: block;
+  border-left: 8px solid #d0e5f2;
+  padding: 5px 10px;
+  margin: 10px 0;
+  line-height: 1.4;
+  font-size: 100%;
+  background-color: #f1f1f1;
+}
+
+/* code 样式 */
+code {
+  display: inline-block;
+  *display: inline;
+  *zoom: 1;
+  background-color: #f1f1f1;
+  border-radius: 3px;
+  padding: 3px 5px;
+  margin: 0 3px;
+}
+pre code {
+  display: block;
+}
+
+/* ul ol 样式 */
+ul, ol {
+  margin: 10px 0 10px 20px;
+}
+</style>
 
 <style scoped>
 .summury,
@@ -347,6 +403,8 @@ export default defineComponent({
   margin-bottom: 300px;
 }
 
+
+
 @media screen {
   @media (max-width: 1000px) {
     .summury,
@@ -387,6 +445,8 @@ export default defineComponent({
   position: relative;
   top: -40px;
 }
+
+
 
 @media screen {
   @media (max-width: 1000px) {
