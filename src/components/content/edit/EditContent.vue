@@ -2,7 +2,7 @@
   
   <!-- <textarea class="content"  v-model="contentInput" ></textarea> -->
   <div class="toolbar" ref="toolbar" id="toolbar"></div>
-  <div class="content" id="content" ref="contentdiv" @contextmenu.prevent="" aria-selected="true"></div>
+  <div class="content" id="content" ref="contentdiv" @contextmenu.prevent="" aria-selected="true" ></div>
   
 </template>
 
@@ -28,9 +28,9 @@ export default defineComponent({
     const contentdiv = ref<HTMLElement|null>(null)
     const toolbar = ref<HTMLElement|null>(null)
     onMounted(()=>{
-      const editor = new Editor(toolbar.value,contentdiv.value)
+      const editor = new Editor(toolbar.value ,contentdiv.value)
       // 设置编辑区域高度为 500px
-    
+      
     if(!yourSpaceMode.value){
       editor.config=Object.assign(editor.config,config1)//如果是博主模式 使用config1
     }
@@ -47,11 +47,13 @@ export default defineComponent({
         editor.selection.moveCursor(e.target as any,)//点击移动光标到对应点击的目标位置  
 
      }
-    editor.config.onchange=(html:any)=>{
-      // console.log('有变化',html)
-      store.commit('changeContent',html)//把内容同步至vuex=》供发送时使用
+    editor.config.onchange=(html:string)=>{    
+      const newhtml=html.replaceAll('<textarea>','<p>')
+        // console.log('有变化',newhtml)
+      store.commit('changeContent',newhtml)//把内容同步至vuex=》供发送时使用
     }
     
+
     editor.config.onSelectionChange = function (newSelection:any) {
       console.log(newSelection)
   };
@@ -64,7 +66,7 @@ export default defineComponent({
         });
     })
 
-
+    
 
 
  
@@ -72,11 +74,12 @@ export default defineComponent({
     // const contentInput =  ref('') //使用富文本编辑器 就不需要转化了吧
     const contentInput =  ref(readReeditContent()?readReeditContent().content:store.state.content) //使用富文本编辑器 就不需要转化了吧
     const yourSpaceMode = ref(useRoute().path=='/YourEditSpace')//当前浏览模式 个人空间还是 博客文章
-
+    
     return{
       // contentInput,
       contentdiv,
-      toolbar
+      toolbar,
+      
     }
   }
 })
