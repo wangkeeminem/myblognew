@@ -1,8 +1,9 @@
 <template>
   
   <!-- <textarea class="content"  v-model="contentInput" ></textarea> -->
-  <div class="content" id="content" ref="contentdiv" ></div>
-
+  <div class="toolbar" ref="toolbar" id="toolbar"></div>
+  <div class="content" id="content" ref="contentdiv" @contextmenu.prevent="" aria-selected="true"></div>
+  
 </template>
 
 <script lang='ts'>
@@ -22,11 +23,14 @@ import { useRoute } from 'vue-router'
 
 export default defineComponent({
   name:'EditContent',
-  components:{  },
+  components:{ },
   setup(){
+    const contentdiv = ref<HTMLElement|null>(null)
+    const toolbar = ref<HTMLElement|null>(null)
     onMounted(()=>{
-      const editor = new Editor(contentdiv.value)
+      const editor = new Editor(toolbar.value,contentdiv.value)
       // 设置编辑区域高度为 500px
+    
     if(!yourSpaceMode.value){
       editor.config=Object.assign(editor.config,config1)//如果是博主模式 使用config1
     }
@@ -35,29 +39,21 @@ export default defineComponent({
       
       editor.config=Object.assign(editor.config,config2)//如果是用户模式 使用config2    
     }
-    ;(contentdiv.value as HTMLElement).onclick= (e)=>{//修正点击后失去焦点
-      // console.log(editor.$textElem.elems[0].lastElementChild,e.target)
-      // editor.$textElem.elems[0]
-      // ;(e.target as HTMLElement).focus()
-      editor.selection.moveCursor(e.target as any,)//点击移动光标到对应点击的目标位置
-      // editor.txt.append('<p></p>')
-      // editor.$textElem.elems[0].children[editor.$textElem.elems.length-1].focus()   
-   
+    ;(contentdiv.value as HTMLElement).ondblclick= (e)=>{//修正点击后失去焦点           
+      editor.selection.moveCursor(e.target as any,)//点击移动光标到对应点击的目标位置     
     }
-    
+    ;(contentdiv.value as HTMLElement).ontouchstart= (e)=>{//修正点击后失去焦点 移动端适配
+           
+        editor.selection.moveCursor(e.target as any,)//点击移动光标到对应点击的目标位置  
 
-    editor.config.onchange=(html:any)=>{
+     }
+    editor.config.onchange=(html:string)=>{
+      // console.log('有变化',html)
       store.commit('changeContent',html)//把内容同步至vuex=》供发送时使用
     }
+    
     editor.config.onSelectionChange = function (newSelection:any) {
-    console.log("onSelectionChange", newSelection);
-  /**
-    {
-       text:'wangeditor', // 当前选择文本
-       html: '<p>wangeditor</p>', // 当前选中的html
-       selection: selection, // 原生selection对象
-    }
-   */
+      console.log(newSelection)
   };
     // 挂载highlight插件
     editor.highlight = hljs
@@ -71,33 +67,81 @@ export default defineComponent({
 
 
 
-    const contentdiv = ref<HTMLElement|null>(null)
+ 
     const store = useStore()
+    // const contentInput =  ref('') //使用富文本编辑器 就不需要转化了吧
     const contentInput =  ref(readReeditContent()?readReeditContent().content:store.state.content) //使用富文本编辑器 就不需要转化了吧
     const yourSpaceMode = ref(useRoute().path=='/YourEditSpace')//当前浏览模式 个人空间还是 博客文章
-    //     const contentInput =  ref(readReeditContent()?readReeditContent().content.replace(/<br>/g,'\n').replace(/\&nbsp\;/g,' '):store.state.content) //反编译 将相关换行 空格标签编译为文本格式
-//     // const contentInput =  ref(store.state.content) //反编译 将相关换行 空格标签编译为文本格式
-// //  content=content.replace(/\n/g,'<br>')..replace(/<br>/g,'\n').replace(/\&nbsp\;/g,'\s')
-// //         content=content.replace(/\s/g,'&nbsp;')
 
-//     watch(contentInput,(content)=>{//同步输入内容至vuex
-   
-//       store.commit('changeContent',content)
-//     })
-    
-//     const newimagename:any=inject('imagename')
-//     watch(newimagename,(newimagename)=>{
-  
-//       contentInput.value=contentInput.value+'\n'+newimagename+'\n'//将其在一起拼接 并且显示出来
-//     })
     return{
       // contentInput,
-      contentdiv
+      contentdiv,
+      toolbar
     }
   }
 })
 </script>
-
+<style>
+  /* table 样式 */
+  table {
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
+  }
+  table td,
+  table th {
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+    padding: 3px 5px;
+  }
+  table th {
+    border-bottom: 2px solid #ccc;
+    text-align: center;
+  }
+  
+  /* blockquote 样式 */
+  blockquote {
+    display: block;
+    border-left: 8px solid #d0e5f2;
+    padding: 5px 10px;
+    margin: 10px 0;
+    line-height: 1.4;
+    font-size: 100%;
+    background-color: #f1f1f1;
+  }
+  
+  /* code 样式 */
+  code {
+    display: inline-block;
+    *display: inline;
+    *zoom: 1;
+    background-color: #f1f1f1;
+    border-radius: 3px;
+    padding: 3px 5px;
+    margin: 0 3px;
+  }
+  pre code {
+    display: block;
+  }
+  
+  /* ul ol 样式 */
+  ul, ol {
+    margin: 10px 0 10px 20px;
+  }
+  
+ 
+  @media screen {
+    @media (max-width: 500px) {
+      .w-e-panel-container{
+        width: 80vw !important;
+        transform: translateX(50%);
+      }
+    }
+  }
+  /* .wang-code-textarea{
+    width: 30% !important;
+  } */
+  
+  </style>
 <style scoped>
   .content{
     position:relative;
@@ -113,8 +157,10 @@ export default defineComponent({
     outline:rgba(110, 110, 110, 0.3) 2px solid;
     border: none;
     resize: none;
+    min-height: 500px;
+    
   }
- 
+
   .content:focus{
     border: none;
   }
