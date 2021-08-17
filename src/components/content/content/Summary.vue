@@ -136,6 +136,7 @@ export default defineComponent({
     })
     const store = useStore();
     const router = useRouter();
+    
     const readArticle = computed(() => store.state.articleMode); //是否为文章阅读mode
     const articleChoice = reactive({
       result: { title: "", details: {}, content: "", tagChoice: [],publishTime:0,comments:[],_id:''},

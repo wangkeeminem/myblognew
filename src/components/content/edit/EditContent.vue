@@ -47,7 +47,7 @@ export default defineComponent({
         editor.selection.moveCursor(e.target as any,)//点击移动光标到对应点击的目标位置  
 
      }
-    editor.config.onchange=(html:string)=>{
+    editor.config.onchange=(html:any)=>{
       // console.log('有变化',html)
       store.commit('changeContent',html)//把内容同步至vuex=》供发送时使用
     }
