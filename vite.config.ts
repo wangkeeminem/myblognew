@@ -2,12 +2,23 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import {resolve} from 'path'
 // https://vitejs.dev/config/
- 
+// import {VitePWA} from 'vite-plugin-pwa'
 export default defineConfig({
-  plugins: [vue()],
+  // plugins: [vue()],
+  plugins: [
+    vue(),
+  //   VitePWA({
+  //    manifest:{},
+  //    workbox:{
+  //      skipWaiting:true,
+  //      clientsClaim:true
+  //    }
+  // })
+],
   build:{
     chunkSizeWarningLimit:1500,
   },
+  
   resolve: {
   alias:{
     'src': resolve(__dirname, './src'),

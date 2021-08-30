@@ -11,18 +11,26 @@
 </template>
 
 <script lang='ts'>
-import {defineComponent, ref} from 'vue'
-import {  useRouter } from 'vue-router'
+import {computed, defineComponent, ref} from 'vue'
+import {  useRouter ,useRoute} from 'vue-router'
+
 export default defineComponent({
   name:'Footer',
   setup(){
+    const router  = useRouter()
     const isfooterVisible = ref(false)
-    useRouter().afterEach((to,from,failure)=>{
-      isfooterVisible.value=to.path=="/home"
-      isfooterVisible.value = false
+    const isHome = ref(false)
+    router.afterEach((to, from) => {
+      // to and from are both route objects.
+      if(to.path=='/home'){
+        isHome.value =true
+      }
+      else{
+        isHome.value = false
+      }
     })
     addEventListener('scroll',(e)=>{
-      if(document.documentElement.scrollHeight==document.documentElement.scrollTop+document.documentElement.clientHeight)
+      if(isHome.value&&document.documentElement.scrollHeight==document.documentElement.scrollTop+document.documentElement.clientHeight)
       {isfooterVisible.value=true}
       else {isfooterVisible.value=false}
     })

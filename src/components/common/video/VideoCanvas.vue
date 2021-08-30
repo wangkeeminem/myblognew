@@ -324,7 +324,7 @@ export default defineComponent({
   height: 20px;
   bottom: 5%;
   transform: translateY(60%);
-  color: tomato;
+  color: rgb(211, 203, 201);
 }
 .fullScreenIcon{
   position: absolute;
